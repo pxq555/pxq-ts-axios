@@ -1,2 +1,2 @@
-# pxq-tx-axios
+# pxq-ts-axios
 使用typescript重构axios组件
