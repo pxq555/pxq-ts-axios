@@ -13,9 +13,14 @@ module.exports = {
    * entries 收集了多目录个入口文件，并且每个入口还引入了一个用于热更新的文件
    * entries 是一个对象，key 为目录名
    */
+  // __dirname 就是命令执行时的目录。 /Users/kong/Documents/myProject/pxq-ts-axios/examples
+  // dir examples 目录下所有的文件或者目录名称
+  // entries { simple:  'webpack-hot-middleware/client', '/Users/kong/Documents/myProject/pxq-ts-axios/examples/simple/app.ts' ] }
   entry: fs.readdirSync(__dirname).reduce((entries, dir) => {
     const fullDir = path.join(__dirname, dir)
     const entry = path.join(fullDir, 'app.ts')
+    console.log('entry')
+    console.log(entry)
     if (fs.statSync(fullDir).isDirectory() && fs.existsSync(entry)) {
       entries[dir] = ['webpack-hot-middleware/client', entry]
     }
