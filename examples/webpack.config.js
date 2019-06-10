@@ -18,7 +18,7 @@ module.exports = {
   // entries { simple:  'webpack-hot-middleware/client', '/Users/kong/Documents/myProject/pxq-ts-axios/examples/simple/app.ts' ] }
   entry: fs.readdirSync(__dirname).reduce((entries, dir) => {
     const fullDir = path.join(__dirname, dir)
-    const entry = path.join(fullDir, 'app.ts')
+    const entry = path.join(fullDir, 'app.ts') // 会将所有地址拼接app.ts，去判断哪一个地址时正确的地址，并且是一个存在的文件。 相当于找到所有simple目录中的入口文件。
     if (fs.statSync(fullDir).isDirectory() && fs.existsSync(entry)) {
       entries[dir] = ['webpack-hot-middleware/client', entry]
     }

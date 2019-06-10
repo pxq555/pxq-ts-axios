@@ -1,5 +1,6 @@
 import axios from '../../src/index'
-
+/*
+验证params参数的demo
 // 参数值为数组
 axios({
   method: 'get',
@@ -68,4 +69,21 @@ axios({
   params: {
     bar: 'baz'
   }
+})
+ *  */
+
+axios({
+  method: 'POST',
+  url: '/base/post',
+  data: {
+    a: '1',
+    b: '2'
+  }
+})
+
+const arr = new Int32Array([21, 31])
+axios({
+  method: 'POST',
+  url: '/base/buffer',
+  data: arr
 })
