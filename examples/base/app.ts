@@ -74,7 +74,7 @@ axios({
 
 
  /*
- 测试传递data
+ 测试传递data*/
 axios({
   method: 'POST',
   url: '/base/post',
@@ -82,6 +82,9 @@ axios({
     a: '1',
     b: '2'
   }
+}).then((res) => {
+  console.log('输出内容1')  
+  console.log(res)
 })
 
 const arr = new Int32Array([21, 31])
@@ -90,25 +93,37 @@ axios({
   url: '/base/buffer',
   data: arr
 })
-*/
 
 axios({
   method: 'POST',
   url: '/base/post',
+  responseType: 'json',
   data: {
-    a: '1',
-    b: '2'
-  },
+    a: 1,
+    b: 2
+  }
+}).then((res) => {
+  console.log('text')
+  console.log(res)
+})
+
+axios({
+  method: 'post',
+  url: '/base/post',
   headers: {
     'content-type': 'application/json',
     'Accept': 'application/json, text/plain, */*'
+  },
+  data: {
+    a: 1,
+    b: 2
   }
 })
 
 const paramString = 'q=URLUtils.searchParams&topic=api'
 const searchParams = new URLSearchParams(paramString);
 axios({
-  method: 'POST',
+  method: 'post',
   url: '/base/post',
   data: searchParams
 })

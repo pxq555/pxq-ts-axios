@@ -18,8 +18,28 @@ export function processHeaders(headers: any, data: any): any {
 
   if (isPlainObject(data)) {
     if (headers && !headers['Content-Type']) {
-      headers['Content-Type'] = 'application/json;charset=utf-8'
+      headers['Content-Type'] = 'application/json; charset=utf-8'
     }
   }
-  return headers;
+  return headers
+}
+
+export function parseHeaders(headers: string): any {
+  // 将请求返回的headers字符串转换为可用对象。
+  let parsed = Object.create(null)
+
+  if (!headers) {
+    return parsed
+  }
+
+  headers.split('\r\n').forEach(line => {
+    let [key, val] = line.split(':')
+    key = key.trim().toLowerCase()
+    if (!key) {
+      return
+    }
+    val = val.trim()
+    parsed[key] = val
+  })
+  return parsed
 }

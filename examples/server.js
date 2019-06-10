@@ -30,7 +30,6 @@ router.get('/base/get', function(req, res) {
 
 // POST请求 
 router.post('/base/post', function(req, res) {
-  // console.log(req)
   res.json(req.body)
 })
 
@@ -48,14 +47,14 @@ router.post('/base/buffer', function(req, res) {
   })
 })
 
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+
 app.use(router)
 
 app.use(webpackHotMiddleware(compiler))
 
 app.use(express.static(__dirname))
-
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
 
 const port = process.env.PORT || 8081
 module.exports = app.listen(port, () => {
