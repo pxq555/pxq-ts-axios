@@ -69,6 +69,8 @@ router.get('/error/timeout', function(req, res) {
   }, 3000)
 })
 
+registerExtendRouter()
+
 app.use(router)
 
 app.use(webpackHotMiddleware(compiler))
@@ -79,3 +81,15 @@ const port = process.env.PORT || 8081
 module.exports = app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}, Ctrl+C to stop`)
 })
+
+function registerExtendRouter() {
+  router.get('/extend/get', function (req, res) {
+    res.json({
+      msg: 'hello world'
+    })
+  })
+
+  router.post('/extend/post', function (req, res) {
+    res.json(req.body)
+  })
+}
