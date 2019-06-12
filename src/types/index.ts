@@ -46,3 +46,25 @@ export interface AxiosError extends Error {
   request?: any
   response?: any
 }
+
+export interface Axios {
+    request(config: AxiosRequestConfig): AxiosPromise
+
+    get(url: string, config?: AxiosRequestConfig): AxiosPromise
+
+    delete(url: string, config?: AxiosRequestConfig): AxiosPromise
+
+    head(url: string, config?: AxiosRequestConfig): AxiosPromise
+
+    options(url: string, config?: AxiosRequestConfig):AxiosPromise
+
+    post(utl: string, data?: any, config?: AxiosRequestConfig):AxiosPromise
+
+    put(utl: string, data?: any, config?: AxiosRequestConfig):AxiosPromise
+
+    patch(utl: string, data?: any, config?: AxiosRequestConfig):AxiosPromise
+}
+
+export interface AxiosInstance extends Axios {
+    (config: AxiosRequestConfig): AxiosPromise
+}
