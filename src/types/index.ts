@@ -18,7 +18,7 @@ export type Method =
 
 export interface AxiosRequestConfig {
   // 定义axios配置参数接口，接口就是给对象定义一个规则
-  url: string
+  url?: string
   method?: Method
   data?: any
   params?: any
@@ -67,4 +67,5 @@ export interface Axios {
 
 export interface AxiosInstance extends Axios {
     (config: AxiosRequestConfig): AxiosPromise
+    (url: string, config?: AxiosRequestConfig): AxiosPromise
 }

@@ -20,7 +20,7 @@ function processConfig(config: AxiosRequestConfig): void {
 // 处理请求的url
 function transformURL(config: AxiosRequestConfig): string {
   let { url, params } = config
-  return buildUrl(url, params)
+  return buildUrl(url!, params)
 }
 // 处理请求的body参数
 function transformRequestData(config: AxiosRequestConfig): any {
