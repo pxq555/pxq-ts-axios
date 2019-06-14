@@ -27,9 +27,9 @@ export interface AxiosRequestConfig {
   timeout?: number // 定义一个配置参数，该参数定义了超时时间。
 }
 
-export interface AxiosResponse {
+export interface AxiosResponse<T=any> {
   // 定义返回对象的接口
-  data: any
+  data: T
   status: number
   statusText: string
   headers: any
@@ -37,7 +37,7 @@ export interface AxiosResponse {
   request: any
 }
 
-export interface AxiosPromise extends Promise<AxiosResponse> {}
+export interface AxiosPromise<T=any> extends Promise<AxiosResponse<T>> {}
 
 export interface AxiosError extends Error {
   isAxiosError: boolean
@@ -48,24 +48,24 @@ export interface AxiosError extends Error {
 }
 
 export interface Axios {
-    request(config: AxiosRequestConfig): AxiosPromise
+    request<T=any>(config: AxiosRequestConfig): AxiosPromise<T>
 
-    get(url: string, config?: AxiosRequestConfig): AxiosPromise
+    get<T=any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
 
-    delete(url: string, config?: AxiosRequestConfig): AxiosPromise
+    delete<T=any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
 
-    head(url: string, config?: AxiosRequestConfig): AxiosPromise
+    head<T=any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
 
-    options(url: string, config?: AxiosRequestConfig):AxiosPromise
+    options<T=any>(url: string, config?: AxiosRequestConfig):AxiosPromise<T>
 
-    post(utl: string, data?: any, config?: AxiosRequestConfig):AxiosPromise
+    post<T=any>(utl: string, data?: any, config?: AxiosRequestConfig):AxiosPromise<T>
 
-    put(utl: string, data?: any, config?: AxiosRequestConfig):AxiosPromise
+    put<T=any>(utl: string, data?: any, config?: AxiosRequestConfig):AxiosPromise<T>
 
-    patch(utl: string, data?: any, config?: AxiosRequestConfig):AxiosPromise
+    patch<T=any>(utl: string, data?: any, config?: AxiosRequestConfig):AxiosPromise<T>
 }
 
 export interface AxiosInstance extends Axios {
-    (config: AxiosRequestConfig): AxiosPromise
-    (url: string, config?: AxiosRequestConfig): AxiosPromise
+    <T=any>(config: AxiosRequestConfig): AxiosPromise<T>
+    <T=any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
 }
