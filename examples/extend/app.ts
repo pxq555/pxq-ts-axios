@@ -23,3 +23,11 @@ axios('/extend/post', {
     msg: 'hello'
   }
 });
+
+axios.request({
+  url: '/extend/post',
+  method: 'post',
+  data: {
+    msg: 'hello'
+  }
+})

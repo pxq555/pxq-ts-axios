@@ -1,17 +1,68 @@
 import dispatchRequest from './dispatchRequest'
-import { AxiosRequestConfig, AxiosPromise, Method } from '../types'
+import {
+  AxiosRequestConfig,
+  AxiosPromise,
+  Method,
+  RejectedFn,
+  ResolvedFn,
+  AxiosResponse
+} from '../types'
+import InterceptorManager from './InterceptorManager'
 
+interface Interceptors {
+  // interceptos的接口
+  request: InterceptorManager<AxiosRequestConfig>
+  response: InterceptorManager<AxiosResponse>
+}
+
+interface PromiseChain<T> {
+  resolved: ResolvedFn<T> | ((config: AxiosRequestConfig) => AxiosPromise)
+  rejected?: RejectedFn
+}
 export default class Axios {
-  request(url:any, config?: any): AxiosPromise {
-      if (typeof url === 'string') {
-        if (!config) {
-            config = {};
-        }
-        config.url = url
-      } else {
-        config = url // 当没有url参数时，第一个参数就是配置对象。
+  interceptors: Interceptors
+
+  constructor() {
+    this.interceptors = {
+      request: new InterceptorManager<AxiosRequestConfig>(),
+      response: new InterceptorManager<AxiosResponse>()
+    }
+  }
+  request(url: any, config?: any): AxiosPromise {
+    // 重载
+    if (typeof url === 'string') {
+      if (!config) {
+        config = {}
       }
-    return dispatchRequest(config)
+      config.url = url
+    } else {
+      config = url // 当没有url参数时，第一个参数就是配置对象。
+    }
+
+    const chain: PromiseChain<any>[] = [
+      {
+        resolved: dispatchRequest,
+        rejected: undefined
+      }
+    ]
+
+    this.interceptors.request.forEach(interceptor => {
+      // 每一个请求拦截器添加进链中,请求拦截器是先添加后执行
+      chain.unshift(interceptor)
+    })
+
+    this.interceptors.request.forEach(interceptor => {
+      // 每一个响应拦截器添加进链中,响应拦截器是先添加先执行
+      chain.push(interceptor)
+    })
+
+    let promise = Promise.resolve(config) // 使用promise来实现链式调用
+    while (chain.length) {
+      let { resolved, rejected } = chain.shift()!
+      promise = promise.then(resolved, rejected)
+    }
+
+    return promise
   }
   get(url: string, config?: AxiosRequestConfig): AxiosPromise {
     return this._requestMethodWithoutData('get', url, config)
