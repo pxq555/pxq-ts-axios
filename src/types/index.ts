@@ -27,9 +27,9 @@ export interface AxiosRequestConfig {
   timeout?: number // 定义一个配置参数，该参数定义了超时时间。
 }
 
-export interface AxiosResponse {
+export interface AxiosResponse<T = any> {
   // 定义返回对象的接口
-  data: any
+  data: T
   status: number
   statusText: string
   headers: any
@@ -37,7 +37,7 @@ export interface AxiosResponse {
   request: any
 }
 
-export interface AxiosPromise extends Promise<AxiosResponse> {}
+export interface AxiosPromise<T = any> extends Promise<AxiosResponse<T>> {}
 
 export interface AxiosError extends Error {
   isAxiosError: boolean
