@@ -51,7 +51,7 @@ export default class Axios {
       chain.unshift(interceptor)
     })
 
-    this.interceptors.request.forEach(interceptor => {
+    this.interceptors.response.forEach(interceptor => {
       // 每一个响应拦截器添加进链中,响应拦截器是先添加先执行
       chain.push(interceptor)
     })

@@ -1,11 +1,11 @@
 import { ResolvedFn, RejectedFn } from '../types'
 
 interface Interceptor<T> {
-  resolved: ResolvedFn<T>
-  rejected?: RejectedFn
+  resolved: ResolvedFn<T> // 先添加的先执行
+  rejected?: RejectedFn // 先添加的后执行
 }
 
-export default class InterceptorManager {
+export default class InterceptorManager<T> {
   private interceptors: Array<Interceptor<T> | null>
 
   constructor() {
