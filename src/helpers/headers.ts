@@ -1,4 +1,5 @@
-import { isPlainObject } from './util'
+import { isPlainObject, deepMerge } from './util'
+import { Method } from '../types'
 
 function normalizeHeaderName(headers: any, normalizedName: string) {
   // 有一样的key，就将对应的val进行替换。
@@ -42,4 +43,20 @@ export function parseHeaders(headers: string): any {
     parsed[key] = val
   })
   return parsed
+}
+
+// 将headers中的common与对应method的属性提取出来合并为完整可用的headers
+export function flattenHeaders(headers: any, method: Method) {
+  if (!headers) {
+    return
+  }
+
+  headers = deepMerge(headers.common, headers[method], headers) // 三个对象提取出来进行合并
+  // 删除其它不必要的属性
+  const methodsToDelete = ['delete', 'get', 'head', 'options', 'post', 'put', 'patch', 'common']
+  methodsToDelete.forEach(method => {
+    delete headers[method]
+  })
+
+  return headers
 }

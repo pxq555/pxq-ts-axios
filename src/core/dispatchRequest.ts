@@ -2,7 +2,7 @@ import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types'
 import { xhr } from './xhr'
 import { buildUrl } from '../helpers/url'
 import { transformRequest, transformResponse } from '../helpers/data'
-import { processHeaders } from '../helpers/headers'
+import { processHeaders, flattenHeaders } from '../helpers/headers'
 
 export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromise {
   // TODO
@@ -16,6 +16,7 @@ function processConfig(config: AxiosRequestConfig): void {
   config.url = transformURL(config)
   config.headers = transformHeaders(config) // 在处理data之前处理headers，因为headers中判断data是否为一个普通对象。transformRequestData函数会将data处理成字符串形式。
   config.data = transformRequestData(config)
+  config.headers = flattenHeaders(config.headers, config.method!)
 }
 // 处理请求的url
 function transformURL(config: AxiosRequestConfig): string {

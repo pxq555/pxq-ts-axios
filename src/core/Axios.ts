@@ -9,7 +9,6 @@ import {
 } from '../types'
 import InterceptorManager from './InterceptorManager'
 import mergeConfig from './mergeConfig'
-import defaults from '../defaults'
 
 interface Interceptors {
   // interceptos的接口

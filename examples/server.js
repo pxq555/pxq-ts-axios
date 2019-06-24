@@ -50,7 +50,7 @@ router.post('/base/buffer', function (req, res) {
   })
 })
 // error
-router.get('/error/get', function(req, res) {
+router.get('/error/get', function (req, res) {
   if (Math.random() > 0.5) {
     res.json({
       msg: `hello world`
@@ -61,7 +61,7 @@ router.get('/error/get', function(req, res) {
   }
 })
 
-router.get('/error/timeout', function(req, res) {
+router.get('/error/timeout', function (req, res) {
   setTimeout(() => {
     res.json({
       msg: `hello world`
@@ -72,6 +72,8 @@ router.get('/error/timeout', function(req, res) {
 registerExtendRouter()
 
 registerInterceptor();
+
+registerConfigRouter();
 
 app.use(router)
 
@@ -107,8 +109,14 @@ function registerExtendRouter() {
   })
 }
 
-function registerInterceptor () {
+function registerInterceptor() {
   router.get('/interceptor/get', function (req, res) {
     res.end('hello')
+  })
+}
+
+function registerConfigRouter() {
+  router.post('/config/post', function (req, res) {
+    res.json(req.body)
   })
 }
