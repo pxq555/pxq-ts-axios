@@ -1,5 +1,3 @@
-import { config } from 'shelljs'
-
 export type Method =
   | 'get'
   | 'GET'
@@ -25,6 +23,8 @@ export interface AxiosRequestConfig {
   headers?: any
   responseType?: XMLHttpRequestResponseType // 定义一个配置参数，配置后台返回参数是什么类型。
   timeout?: number // 定义一个配置参数，该参数定义了超时时间。
+  transformRequest?: AxiosTransformer | AxiosTransformer[]
+  transformResponse?: AxiosTransformer | AxiosTransformer[]
 
   [propName: string]: any
 }
@@ -90,4 +90,8 @@ export interface ResolvedFn<T> {
 
 export interface RejectedFn {
   (error: any): any
+}
+
+export interface AxiosTransformer {
+  (data: any, headers?: any): any
 }
