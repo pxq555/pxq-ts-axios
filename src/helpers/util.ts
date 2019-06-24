@@ -21,3 +21,28 @@ export function extend<T, U>(to: T, from: U): T & U {
   }
   return to as T & U
 }
+
+//将多个对象中的值合并到一个对象中
+// 下面写的深拷贝对象，同样的属性值，最后合并出来的值以靠后的参数为准。
+export function deepMerge(...objs: any[]): any {
+  // objs -> [{accept: ''}, {accept: ''}]
+  let result = Object.create(null)
+
+  objs.forEach(obj => {
+    if (obj) {
+      Object.keys(obj).forEach(key => {
+        const val = obj[key]
+        if (isPlainObject(val)) {
+          if (isPlainObject(result[key])) {
+            result[key] = deepMerge(result[key], val)
+          } else {
+            result[key] = deepMerge(val)
+          }
+        } else {
+          result[key] = val
+        }
+      })
+    }
+  })
+  return result
+}

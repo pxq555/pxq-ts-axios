@@ -8,6 +8,8 @@ import {
   AxiosResponse
 } from '../types'
 import InterceptorManager from './InterceptorManager'
+import mergeConfig from './mergeConfig'
+import defaults from '../defaults'
 
 interface Interceptors {
   // interceptos的接口
@@ -40,6 +42,8 @@ export default class Axios {
     } else {
       config = url // 当没有url参数时，第一个参数就是配置对象。
     }
+
+    config = mergeConfig(this.defaults, config)
 
     const chain: PromiseChain<any>[] = [
       {
