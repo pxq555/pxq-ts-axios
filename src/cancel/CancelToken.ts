@@ -21,6 +21,13 @@ export default class CancelToken {
     })
   }
 
+  throwIfRequested(): void {
+    if (this.reason) {
+      // 如果reason值有的话，代表已经执行过一次cancel了。
+      throw this.reason
+    }
+  }
+
   static source(): CancelTokenSource {
     let cancel!: Canceler
     const token = new CancelToken(c => {

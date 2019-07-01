@@ -26,6 +26,7 @@ export interface AxiosRequestConfig {
   transformRequest?: AxiosTransformer | AxiosTransformer[]
   transformResponse?: AxiosTransformer | AxiosTransformer[]
   cancelToken?: CancelToken // 用来中断正在请求的接口
+  withCredentials?: boolean
 
   [propName: string]: any
 }
@@ -108,6 +109,8 @@ export interface AxiosTransformer {
 export interface CancelToken {
   promise: Promise<Cancel>
   reason?: Cancel
+
+  throwIfRequested(): void
 }
 
 export interface Canceler {
