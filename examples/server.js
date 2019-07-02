@@ -18,6 +18,12 @@ app.use(webpackDevMiddleware(compiler, {
   }
 }))
 
+app.use(express.static(__dirname, { // 给express.static中间件添加一个函数，该函数每次往response中添加一个cookie
+  setHeaders (res) {
+    res.cookie('XSRF-TOKEN-D', '1234abc')
+  }
+}))
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())

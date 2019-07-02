@@ -26,7 +26,9 @@ export interface AxiosRequestConfig {
   transformRequest?: AxiosTransformer | AxiosTransformer[]
   transformResponse?: AxiosTransformer | AxiosTransformer[]
   cancelToken?: CancelToken // 用来中断正在请求的接口
-  withCredentials?: boolean
+  withCredentials?: boolean // 此参数如果配置了，会对request.withCredentials的属性设置为true，就可以实现在跨域请求时携带上cookie
+  xsrfCookieName?: string // 此参数用来配置在请求时，获取cookie中的token参数，在请求时添加进请求header中。
+  xsrfHeaderName?: string
 
   [propName: string]: any
 }
