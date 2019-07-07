@@ -31,6 +31,8 @@ export interface AxiosRequestConfig {
   xsrfHeaderName?: string // 此参数是用来将获取的token值存入headers中的name
   onDownloadProgress?: (e: ProgressEvent) => void // 配置下载事件
   onUploadProgress?: (e: ProgressEvent) => void // 配置上传事件
+  auth?: AxiosBasicCredentials // 配置了该配置，会在headers中添加Authorization属性，该属性的格式是Basic username: password
+  validateStatus?: (status: number) => boolean // 该配置为函数配置，有默认值，监测返回的res中的status的区间范围为多少为正常请求返回。
 
   [propName: string]: any
 }
@@ -142,4 +144,8 @@ export interface Cancel {
 
 export interface CancelStatic {
   new (message?: string): Cancel
+}
+export interface AxiosBasicCredentials {
+  username: string
+  password: string
 }

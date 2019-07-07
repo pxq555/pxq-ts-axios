@@ -19,7 +19,9 @@ export function xhr(config: AxiosRequestConfig): AxiosPromise {
       xsrfCookieName,
       xsrfHeaderName,
       onDownloadProgress,
-      onUploadProgress
+      onUploadProgress,
+      auth,
+      validateStatus
     } = config
     let request = new XMLHttpRequest()
 
@@ -91,6 +93,10 @@ export function xhr(config: AxiosRequestConfig): AxiosPromise {
     }
 
     function processHeaders(): void {
+      if (auth) {
+        headers['Authorization'] = 'Basic ' + btoa(auth.username + ':' + auth.password)
+      }
+
       // 对headers做修改
       if (isFromData(data)) {
         delete headers['Content-Type']
@@ -124,7 +130,7 @@ export function xhr(config: AxiosRequestConfig): AxiosPromise {
       }
     }
     function handleResponse(res: AxiosResponse): void {
-      if (res.status >= 200 && res.status < 300) {
+      if (!validateStatus || validateStatus(res.status)) {
         resolve(res)
       } else {
         reject(createError(`error:请求失败，状态码为:${res.status}`, config, null, request, res))
