@@ -38,7 +38,10 @@ const stratkeysDeepMerge = ['headers', 'auth']
 stratkeysDeepMerge.forEach(key => {
   strats[key] = deepMergeStrat
 })
-export default function mergeConfig(config1: AxiosRequestConfig, config2?: AxiosRequestConfig) {
+export default function mergeConfig(
+  config1: AxiosRequestConfig,
+  config2?: AxiosRequestConfig
+): AxiosRequestConfig {
   if (!config2) {
     config2 = {}
   }

@@ -19,7 +19,7 @@ export function processHeaders(headers: any, data: any): any {
 
   if (isPlainObject(data)) {
     if (headers && !headers['Content-Type']) {
-      headers['Content-Type'] = 'application/json; charset=utf-8'
+      headers['Content-Type'] = 'application/json;charset=utf-8'
     }
   }
   return headers
@@ -34,12 +34,12 @@ export function parseHeaders(headers: string): any {
   }
 
   headers.split('\r\n').forEach(line => {
-    let [key, val] = line.split(':')
+    let [key, ...vals] = line.split(':')
     key = key.trim().toLowerCase()
     if (!key) {
       return
     }
-    val = val.trim()
+    const val = vals.join(':').trim()
     parsed[key] = val
   })
   return parsed
@@ -48,7 +48,7 @@ export function parseHeaders(headers: string): any {
 // 将headers中的common与对应method的属性提取出来合并为完整可用的headers
 export function flattenHeaders(headers: any, method: Method) {
   if (!headers) {
-    return
+    return headers
   }
 
   headers = deepMerge(headers.common, headers[method], headers) // 三个对象提取出来进行合并

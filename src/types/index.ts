@@ -33,6 +33,8 @@ export interface AxiosRequestConfig {
   onUploadProgress?: (e: ProgressEvent) => void // 配置上传事件
   auth?: AxiosBasicCredentials // 配置了该配置，会在headers中添加Authorization属性，该属性的格式是Basic username: password
   validateStatus?: (status: number) => boolean // 该配置为函数配置，有默认值，监测返回的res中的status的区间范围为多少为正常请求返回。
+  paramsSerializer?: (params: any) => string // 配置了该函数，可以按照该函数逻辑去解析param。
+  baseURL?: string // 配置了该属性之后的请求，相对路径的请求接口名称会拼接上此变量。
 
   [propName: string]: any
 }
@@ -64,26 +66,32 @@ export interface Axios {
     response: AxiosInterceptorManager<AxiosResponse>
   }
 
-  request(config: AxiosRequestConfig): AxiosPromise
+  request<T = any>(config: AxiosRequestConfig): AxiosPromise<T>
 
-  get(url: string, config?: AxiosRequestConfig): AxiosPromise
+  get<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
 
-  delete(url: string, config?: AxiosRequestConfig): AxiosPromise
+  delete<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
 
-  head(url: string, config?: AxiosRequestConfig): AxiosPromise
+  head<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
 
-  options(url: string, config?: AxiosRequestConfig): AxiosPromise
+  options<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
 
-  post(utl: string, data?: any, config?: AxiosRequestConfig): AxiosPromise
+  post<T = any>(utl: string, data?: any, config?: AxiosRequestConfig): AxiosPromise<T>
 
-  put(utl: string, data?: any, config?: AxiosRequestConfig): AxiosPromise
+  put<T = any>(utl: string, data?: any, config?: AxiosRequestConfig): AxiosPromise<T>
 
-  patch(utl: string, data?: any, config?: AxiosRequestConfig): AxiosPromise
+  patch<T = any>(utl: string, data?: any, config?: AxiosRequestConfig): AxiosPromise<T>
+
+  getUri(config?: AxiosRequestConfig): string // 获得完整的URL
 }
 
 export interface AxiosInstance extends Axios {
   <T = any>(config: AxiosRequestConfig): AxiosPromise
   <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise
+}
+
+export interface AxiosClassStatic {
+  new (config: AxiosRequestConfig): Axios
 }
 
 export interface AxiosStatic extends AxiosInstance {
@@ -92,6 +100,12 @@ export interface AxiosStatic extends AxiosInstance {
   CancelToken: CancelTokenStatic
   Cancel: CancelStatic
   isCancel: (val: any) => boolean
+
+  all<T>(promises: Array<T | Promise<T>>): Promise<T[]>
+
+  spread<T, R>(callback: (...args: T[]) => R): (arr: T[]) => R
+
+  Axios: AxiosClassStatic
 }
 
 export interface AxiosInterceptorManager<T> {

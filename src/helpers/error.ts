@@ -1,5 +1,4 @@
 import { AxiosRequestConfig, AxiosResponse } from '../types'
-import { config } from 'shelljs'
 
 export class AxiosError extends Error {
   isAxiosError?: boolean

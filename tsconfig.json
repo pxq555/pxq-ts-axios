@@ -12,11 +12,15 @@
     "emitDecoratorMetadata": true,
     "declarationDir": "dist/types",
     "outDir": "dist/lib",
+    "types": ["node", "jest"],
     "typeRoots": [
       "node_modules/@types"
     ]
   },
   "include": [
-    "src"
+    "src",
+    "./src",
+    "./test",
+    "**/*.spec.ts"
   ]
 }
