@@ -20,7 +20,7 @@ function deepMergeStrat(val1: any, val2: any): any {
     return val2
   } else if (isPlainObject(val1)) {
     return deepMerge(val1) // 合并操作是为来返回val1的拷贝对象，返回val1的引用对象进行操作会改变原始值
-  } else if (typeof val1 !== 'undefined') {
+  } else {
     return val1
   }
 }

@@ -11,7 +11,7 @@ export function isPlainObject(val: any): val is Object {
 }
 
 export function isFromData(val: any): val is FormData {
-  return typeof val !== undefined && val instanceof FormData
+  return typeof val !== 'undefined' && val instanceof FormData
 }
 
 export function isURLSearchParams(val: any): val is URLSearchParams {

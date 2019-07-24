@@ -10,8 +10,8 @@ export function xhr(config: AxiosRequestConfig): AxiosPromise {
     let {
       url,
       data = null,
-      method = 'get',
-      headers,
+      method,
+      headers = {},
       responseType,
       timeout,
       cancelToken,
@@ -25,7 +25,7 @@ export function xhr(config: AxiosRequestConfig): AxiosPromise {
     } = config
     let request = new XMLHttpRequest()
 
-    request.open(method.toUpperCase(), url!, true)
+    request.open(method!.toUpperCase(), url!, true)
 
     configureRequest() // 对request 对象做的一些事情
 
@@ -123,10 +123,17 @@ export function xhr(config: AxiosRequestConfig): AxiosPromise {
     function processCancel(): void {
       // 对取消请求事件做封装
       if (cancelToken) {
-        cancelToken.promise.then(reason => {
-          request.abort()
-          reject(reason)
-        })
+        cancelToken.promise
+          .then(reason => {
+            request.abort()
+            reject(reason)
+          })
+          .catch(
+            /* istanbul ignore next */
+            () => {
+              // do nothing
+            }
+          )
       }
     }
     function handleResponse(res: AxiosResponse): void {
